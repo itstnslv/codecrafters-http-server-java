@@ -15,17 +15,9 @@ public class Main {
             // ensures that we don't run into 'Address already in use' errors
             serverSocket.setReuseAddress(true);
 
-            String responseString, requestString;
-
-            requestString = in.readLine();
-            System.out.println("Request string: " + requestString);
-            if (requestString != null && requestString.split(" ")[1].equals("/")) {
-                responseString = "HTTP/1.1 200 OK\r\n\r\n";
-            } else {
-                responseString = "HTTP/1.1 404 Not Found\r\n\r\n";
-            }
-
-            out.println(responseString);
+            var handler = new RequestHandler(in);
+            var response = handler.handle();
+            out.println(response);
         } catch (IOException e) {
             System.out.println("IOException: " + e.getMessage());
         }
