@@ -17,7 +17,9 @@ class RequestHandler {
         System.out.println("Request string: " + requestString);
         var urlPath = requestString.split(" ")[1];
         if (urlPath.equals("/")) {
-            responseString = ResponseCode.OK.message();
+            responseString = new ResponseBuilder()
+                    .statusLine(ResponseCode.OK)
+                    .build();
         } else if (urlPath.contains("/echo")) {
             var pathVariable = urlPath.substring(urlPath.lastIndexOf("/") + 1);
             responseString = new ResponseBuilder()
@@ -27,7 +29,9 @@ class RequestHandler {
                     .body(pathVariable)
                     .build();
         } else {
-            responseString = ResponseCode.NOT_FOUND.message();
+            responseString = new ResponseBuilder()
+                    .statusLine(ResponseCode.NOT_FOUND)
+                    .build();
         }
 
         return responseString;
